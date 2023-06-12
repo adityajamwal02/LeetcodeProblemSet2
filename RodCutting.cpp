@@ -30,7 +30,7 @@ Expected Time Complexity: O(N2)
 Expected Auxiliary Space: O(N)
 */
 
-// User function Template for C++
+/// Memoization Solution
 
 class Solution{
   public:
@@ -51,3 +51,54 @@ class Solution{
     return solve(n-1,n,price,dp);
     }
 };
+
+/// Tabulation Solution
+
+class Solution{
+  public:
+    int cutRod(int price[], int n) {
+        vector<vector<int>> dp(n, vector<int> (n+1,-1));
+        for(int i=0;i<=n;i++){
+            dp[0][i]=i*price[0];
+        }
+        for(int i=1;i<n;i++){
+            for(int j=0;j<=n;j++){
+                int notTaken=dp[i-1][j];
+                int taken=INT_MIN;
+                if(i+1<=j){
+                    taken=price[i]+dp[i][j-i-1];
+                }
+            dp[i][j]=max(taken,notTaken);
+            }
+        }
+    return dp[n-1][n];
+    }
+};
+
+
+/// Space Optimized (IDEA: dp[ind][length] =  max(dp[ind-1][length] ,dp[ind][length-(ind+1)]))
+
+int cutRod(vector<int>& price,int N) {
+
+    vector<int> cur (N+1,0);
+
+    for(int i=0; i<=N; i++){
+        cur[i] = i*price[0];
+    }
+
+    for(int ind=1; ind<N; ind++){
+        for(int length =0; length<=N; length++){
+
+             int notTaken = 0 + cur[length];
+
+             int taken = INT_MIN;
+             int rodLength = ind+1;
+             if(rodLength <= length)
+                taken = price[ind] + cur[length-rodLength];
+
+             cur[length] = max(notTaken,taken);
+        }
+    }
+
+    return cur[N];
+}
