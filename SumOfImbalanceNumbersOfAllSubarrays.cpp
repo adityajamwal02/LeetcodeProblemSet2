@@ -29,7 +29,6 @@ Explanation: There are 7 subarrays with non-zero imbalance numbers:
 The imbalance number of all other subarrays is 0. Hence, the sum of imbalance numbers of all the subarrays of nums is 8
 */
 
-
 class Solution {
 public:
     int sumImbalanceNumbers(vector<int>& nums) {
@@ -68,5 +67,25 @@ public:
             }
         }
     return counter;
+    }
+};
+
+/// Set based solution Approach
+
+class Solution {
+public:
+    int sumImbalanceNumbers(vector<int>& nums) {
+        int n=nums.size(), result=0;
+        for(int i=0;i<n;i++){
+            unordered_set<int> st;
+            st.insert(nums[i]);
+            int counter=0;
+            for(int j=i+1;j<n;j++){
+                counter+=(st.count(nums[j]) ? 0 : 1-st.count(nums[j]+1) ) - st.count(nums[j]-1);
+                st.insert(nums[j]);
+                result+=counter;
+            }
+        }
+    return result;        
     }
 };
