@@ -22,24 +22,20 @@ You don't have to read input or print anything. Your task is to complete the fun
 
 Expected Time Complexity: O(N*N).
 Expected Auxiliary Space: O(1).
-
-
 */
 
 //User function Template for C++
 
-class Solution
-{
-    public:
-    //Function to sort the array using bubble sort algorithm.
-    void bubbleSort(int arr[], int n)
-    {
-        for(int i=0;i<n-1;i++){
-            for(int j=i+1;j<n;j++){
-                if(arr[i]>arr[j]){
-                    swap(arr[i],arr[j]);
-                }
-            }
+
+#include <bits/stdc++.h>
+void insertionSort(int n, vector<int> &arr){
+    for(int i=1;i<n;i++){
+        int key=arr[i];
+        int j=i-1;
+        while(j>=0 and arr[j]>key){
+            arr[j+1]=arr[j];
+            j--;
         }
+        arr[j+1]=key;
     }
-};
+}
