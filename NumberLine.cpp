@@ -1,5 +1,3 @@
-/// Anshika Que1. Number line : Initial thought : DP based
-
 #include<bits/stdc++.h>
 using namespace std;
 
