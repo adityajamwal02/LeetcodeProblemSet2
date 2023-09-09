@@ -21,7 +21,6 @@ Output: 0
 Explanation: In this case, no transaction is done, i.e. max profit = 0.
 */
 
-
 class Solution {
 public:
     long long helper(int i, int n, vector<int> &prices, int buy, int capacity, vector<vector<vector<int>>> &dp){
@@ -44,3 +43,41 @@ public:
     return helper(0,n,prices,buy,capacity,dp);
     }
 };
+
+/// Space optimized
+
+int maxProfit(vector<int>& prices) {
+    int n=prices.size();
+    vector<vector<int>> next(2,vector<int>(3,0)), curr(2,vector<int>(3,0));
+    for(int i=n-1;i>=0;i--){
+        for(int buy=0;buy<2;buy++){
+            for(int k=1;k<3;k++){
+                if(buy==0){
+                    curr[buy][k]=max(next[0][k],-prices[i]+next[1][k]);
+                }else{
+                    curr[buy][k]=max(next[1][k],+prices[i]+next[0][k-1]);
+                }
+            }
+        }
+    next=curr;
+    }
+return next[0][2];
+}
+
+
+/// O(n) optimized with O(1)
+
+int maxProfit(vector<int>& prices)
+{
+    int n = prices.size();
+    int firstBuy = INT_MIN, firstSell = 0;
+    int secondBuy = INT_MIN, secondSell = 0;
+    for(int i = 0; i < n; i++)
+    {
+    	firstBuy = max(firstBuy, - prices[i]);
+    	firstSell = max(firstSell, firstBuy + prices[i]);
+    	secondBuy = max(secondBuy, firstSell - prices[i]);
+    	secondSell = max(secondSell, secondBuy + prices[i]);
+    }
+return secondSell;
+}
